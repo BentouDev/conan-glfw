@@ -22,6 +22,7 @@ install:
   - cmd: refreshenv
   - cmd: conan user # It creates the conan data directory
   # Workaround - copy fallback settings with Visual Studio 2019 enabled
+  - cmd: type %USERPROFILE%/.conan/settings.yml
   - cmd: move conan-fallback-settings.yml %USERPROFILE%/.conan/settings.yml
 
 build_script:
