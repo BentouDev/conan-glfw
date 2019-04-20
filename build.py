@@ -161,5 +161,8 @@ if __name__ == '__main__':
     if len(sys.argv) >= 2:
         execute(sys.argv[1])
     else:
-        print(" [warn] Missing repository key argument! Package won't be uploaded")
-        execute(None)
+        if 'REPOSITORY_KEY' in os.environ:
+            execute(os.environ['REPOSITORY_KEY'])
+        else:
+            print(" [warn] Missing repository key argument! Package won't be uploaded")
+            execute(None)

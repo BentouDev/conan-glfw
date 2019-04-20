@@ -10,22 +10,17 @@ matrix:
   - os: linux
     compiler: clang-5
     env: CXX=clang++-5 CC=clang-5
-    script:
-    - docker run -e "CI" -e "TRAVIS" -e "TRAVIS_TAG" -e "TRAVIS_BUILD_NUMBER" -e "CXX"
-      -e "CC" -e "REPOSITORY_KEY" --tty=false -it -v $PWD:/src --workdir /src bentou/ubuntu-bionic-dev
-      python3 ./build.py
   - os: linux
     compiler: gcc-6
     env: CXX=g++ CC=gcc
-    script:
-    - docker run -e "CI" -e "TRAVIS" -e "TRAVIS_TAG" -e "TRAVIS_BUILD_NUMBER" -e "CXX"
-      -e "CC" -e "REPOSITORY_KEY" --tty=false -it -v $PWD:/src --workdir /src bentou/ubuntu-bionic-dev
-      python3 ./build.py
+script:
+- docker run -e "CI" -e "TRAVIS" -e "TRAVIS_TAG" -e "TRAVIS_BUILD_NUMBER" -e "CXX"
+  -e "CC" -e "REPOSITORY_KEY" --tty=false -it -v $PWD:/src --workdir /src bentou/ubuntu-bionic-dev
+  python3 ./build.py
 before_script:
 - docker pull bentou/ubuntu-bionic-dev
 - docker ps -a
 - mkdir bin
-
 env:
   global:
-    secure: JvePRjJru0qDQdrrYDn3fREh04yf4WvEIdDWhan31nwfOkDb37gMBSMjQlpY8W0t20NKIoYcxJ/QNRJPq6Ho4A9KG65zDcHt4Ki8fE6EJL3FAz1DGf8oNbSyvI0p4VJj86BpNfK2Ji545cEx36iPqD2mQKcYR4sDRVcxMik30IffTcwEVIuiyN5H3wUDbLz9lR8Cs8ru4l425le+vTqJz/Qhxi6Ucj22rWb47sl/MBSOwjDLJ1c+6DzQdQqNRAILpw2S28sh2zGqJKyS2KRKfTRrK6+5/Jb043gpEAnHQltUxs9n4J4V9iQtuv0kA/m6+XdRnjduWjEbgWcnJ3NTSlWbc46s9N2/N+gIy0J66H5lU9qNlxNPy+pPLUa5vXd0Yrh/E3zbrUv9izA0bf01h3TrRdO2dTiZgMOi59YnxM9R8Gxi3wOPWPGgs0WKFSKTw4uoKb3i3UVgHqWkujwXxjAVgp/JndUXVC3vdScKPJZnUulhQSY+bnpTBWCi0TEZPGE3f56jY2MvMZml2GwkGNLMhiRkUEQGbevRUP+IVraBdsYTr3Kwefko/XK2SxnpeR5tnQrh2Vb3uT7ghuZJUWatHgLca7d0QlPRZi1mBZyqLZ8y84/URLycVu/QdBVS17WhYGJX4cqLtOeOwAPRGgu/AjxzWiEps6/822jQwSA=
+    secure: oOA92SHk6na4u8lCnSKUEfD43L05mUq9Rfz4ChGlbT8CF6nBL3BtlsWgOI36JPDcJzO9PPqYo/+9sOLVtX21tLOYlD7f1/GxCJV2DffeQg2HuAZikUtHV0sc1u0hJ7R2r+4ouKK5jtDc9ndlKCUdZx6dPU7CKBFZtAvEX3/MddeMjox6Z5cRsm1TIy3EKuF9B9yT1oqgoSjCpoBvrc8nTL6mDEFCfP5I4ZJR/gPo3PWHq8BB25QUjimMj73kpvcTVm6S83+AcRF6fmyhhTK0xo+xj4zEZKqLci6OD/jukAHDsk1u3X/rVagIdfwxKytvA07GLJfRyVJa7LdLLxDMOcEhastL4WzaUf3ksv2NNXvCUN1B1pxRM4qLyl2Ilz9Npv252InzWgmdFB0FxKH5i7fx5dWw1GDVqtw+tSI6ynJBcxxfkQUV9iPBsulgruIDqzlyOFnUK4SChch/4Dd5d6nshdAzuEBLgEPKUgtMGmzrLLdFTTqDZf2GqFR/sgvXgUq0+GEvD15TJnwCB43WQG2XXtW+7FMw+AiwZsdXqN/oQY6OcDl1gLJ/E4NIPG22QroYj0Di8+3AKb4YNHW4w8asXt916BFIvtyj+aeQQb/Icy6FX1ISi31Nx0Asj0lbDPtA3/6gwtd+d8zjFxhZBU/ZedkvblGurngLTzzoqLY=
