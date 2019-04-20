@@ -102,6 +102,7 @@ def execute(password):
     channel = 'dev'
     version = None
     commit = None
+    build_number = None
 
     if 'CI' in os.environ:
         print(' [info] CI Environment detected')
@@ -112,6 +113,8 @@ def execute(password):
                 version = os.environ['APPVEYOR_REPO_TAG_NAME']
             if 'APPVEYOR_REPO_COMMIT' in os.environ:
                 commit = os.environ['APPVEYOR_REPO_COMMIT']
+            if 'APPVEYOR_BUILD_NUMBER' in os.environ:
+                commit = os.environ['APPVEYOR_BUILD_NUMBER']
 
         if 'TRAVIS' in os.environ:
             print(" [info] Welcome, Travis!")
@@ -119,6 +122,8 @@ def execute(password):
                 version = os.environ['TRAVIS_TAG']
             if 'TRAVIS_COMMIT' in os.environ:
                 commit = os.environ['TRAVIS_COMMIT']
+            if 'TRAVIS_BUILD_NUMBER' in os.environ:
+                build_number = os.environ['TRAVIS_BUILD_NUMBER']
 
     if not version or not commit:
         print (' [*] Attempt to get version from git...')
@@ -128,6 +133,10 @@ def execute(password):
             commit = gitData['commit']
         if STABLE_IN_GIT:
             channel = 'stable'
+        ver_parts = version.split('-1-')
+        if len(ver_parts) > 1 and build_number:
+            # Fix semvar
+            version = ver_parts[0] + '.' + build_number
     else:
         channel = 'stable'
 
