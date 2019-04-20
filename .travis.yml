@@ -1,10 +1,19 @@
 language: cpp
+
 notifications:
   email: false
+
 sudo: false
+
 dist: trusty
+
 services:
 - docker
+
+env:
+  matrix:
+    secure: Z+j4Kd1ESGpzXW/lK4f3hheVM8nl5q+C5u9OHAbXyRBq0kM0GQiPGHuLrkKsEmNtiJJewZ+YFIh/Z47R8evBqn+TjZ5dzNFuD8A53HKTq+FoxB382Bqeu0qsX+OjW0GU1aYt2JsZQK5ONr1U1hR/A6E4aiRDmh3s1kU0lKIP7UMBo7YGr1tUf/ZxMuIUcdbR6wTPCjnEnnBda250TMuFruzHihDWv3KOaWfqliEtzu0DkYNrvxg2jF1H/BViy6QuCDmiaUU1TMa30Y017k8vGjYYXrVT7Np8juYDjAoXtIc4TZEmOQXEUbXadvarl35gIvV201X0jBLWgMYuWJAI0KQLni/CVSV2MRSW+bXoV/i5bN2vlEv0uTAneevNUbs3H/Ur7x84IZzi2okQwv73yb7cxm/xre5ECM+pBtGkdBHCP6SDuMy0iNHfp0VU0N8sUwCZuMEDXOFpw4M7Bw3t4ofE1N4ff1kZX+InbYGIv8V8D/+AQaaZS8D5InfW26qYIMDT3o1yCLLLAe8Vym1JzZY/UnH5yQ1dngNdG8mRe3dE08OqxMP0Px+rCkcbpaf0yPMrhtU/Q9HRGFLEdZ77hFBmwSyT7bQM4M+kTY5hMeF5WAwuvLU80hluCwWTnlGUkYcdNlZG/9qUV2uLrLh8taX1uejHMDrtg5Pp+N4Z80U=
+
 matrix:
   include:
   - os: linux
@@ -13,13 +22,12 @@ matrix:
   - os: linux
     compiler: gcc-6
     env: CXX=g++ CC=gcc
+
 script:
-- docker run -e "CI" -e "TRAVIS" -e "TRAVIS_TAG" -e "CXX" -e "CC" --tty=false -it
+- docker run -e "CI" -e "TRAVIS" -e "TRAVIS_TAG" -c "TRAVIS_BUILD_NUMBER" -e "CXX" -e "CC" --tty=false -it
   -v $PWD:/src --workdir /src bentou/ubuntu-bionic-dev python3 ./build.py $REPOSITORY_KEY
+
 before_script:
 - docker pull bentou/ubuntu-bionic-dev
 - docker ps -a
 - mkdir bin
-env:
-  matrix:
-    secure: Z+j4Kd1ESGpzXW/lK4f3hheVM8nl5q+C5u9OHAbXyRBq0kM0GQiPGHuLrkKsEmNtiJJewZ+YFIh/Z47R8evBqn+TjZ5dzNFuD8A53HKTq+FoxB382Bqeu0qsX+OjW0GU1aYt2JsZQK5ONr1U1hR/A6E4aiRDmh3s1kU0lKIP7UMBo7YGr1tUf/ZxMuIUcdbR6wTPCjnEnnBda250TMuFruzHihDWv3KOaWfqliEtzu0DkYNrvxg2jF1H/BViy6QuCDmiaUU1TMa30Y017k8vGjYYXrVT7Np8juYDjAoXtIc4TZEmOQXEUbXadvarl35gIvV201X0jBLWgMYuWJAI0KQLni/CVSV2MRSW+bXoV/i5bN2vlEv0uTAneevNUbs3H/Ur7x84IZzi2okQwv73yb7cxm/xre5ECM+pBtGkdBHCP6SDuMy0iNHfp0VU0N8sUwCZuMEDXOFpw4M7Bw3t4ofE1N4ff1kZX+InbYGIv8V8D/+AQaaZS8D5InfW26qYIMDT3o1yCLLLAe8Vym1JzZY/UnH5yQ1dngNdG8mRe3dE08OqxMP0Px+rCkcbpaf0yPMrhtU/Q9HRGFLEdZ77hFBmwSyT7bQM4M+kTY5hMeF5WAwuvLU80hluCwWTnlGUkYcdNlZG/9qUV2uLrLh8taX1uejHMDrtg5Pp+N4Z80U=
