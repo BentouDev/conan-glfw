@@ -1,35 +1,31 @@
 language: cpp
-
 notifications:
   email: false
-
 sudo: false
-
 dist: trusty
-
 services:
 - docker
-
-env:
-  global:
-    secure: Z+j4Kd1ESGpzXW/lK4f3hheVM8nl5q+C5u9OHAbXyRBq0kM0GQiPGHuLrkKsEmNtiJJewZ+YFIh/Z47R8evBqn+TjZ5dzNFuD8A53HKTq+FoxB382Bqeu0qsX+OjW0GU1aYt2JsZQK5ONr1U1hR/A6E4aiRDmh3s1kU0lKIP7UMBo7YGr1tUf/ZxMuIUcdbR6wTPCjnEnnBda250TMuFruzHihDWv3KOaWfqliEtzu0DkYNrvxg2jF1H/BViy6QuCDmiaUU1TMa30Y017k8vGjYYXrVT7Np8juYDjAoXtIc4TZEmOQXEUbXadvarl35gIvV201X0jBLWgMYuWJAI0KQLni/CVSV2MRSW+bXoV/i5bN2vlEv0uTAneevNUbs3H/Ur7x84IZzi2okQwv73yb7cxm/xre5ECM+pBtGkdBHCP6SDuMy0iNHfp0VU0N8sUwCZuMEDXOFpw4M7Bw3t4ofE1N4ff1kZX+InbYGIv8V8D/+AQaaZS8D5InfW26qYIMDT3o1yCLLLAe8Vym1JzZY/UnH5yQ1dngNdG8mRe3dE08OqxMP0Px+rCkcbpaf0yPMrhtU/Q9HRGFLEdZ77hFBmwSyT7bQM4M+kTY5hMeF5WAwuvLU80hluCwWTnlGUkYcdNlZG/9qUV2uLrLh8taX1uejHMDrtg5Pp+N4Z80U=
-
 matrix:
   include:
   - os: linux
     compiler: clang-5
     env: CXX=clang++-5 CC=clang-5
     script:
-    - docker run -e "CI" -e "TRAVIS" -e "TRAVIS_TAG" -e "TRAVIS_BUILD_NUMBER" -e "CXX" -e "CC" -e "REPOSITORY_KEY" --tty=false -it
-      -v $PWD:/src --workdir /src bentou/ubuntu-bionic-dev python3 ./build.py
+    - docker run -e "CI" -e "TRAVIS" -e "TRAVIS_TAG" -e "TRAVIS_BUILD_NUMBER" -e "CXX"
+      -e "CC" -e "REPOSITORY_KEY" --tty=false -it -v $PWD:/src --workdir /src bentou/ubuntu-bionic-dev
+      python3 ./build.py
   - os: linux
     compiler: gcc-6
     env: CXX=g++ CC=gcc
     script:
-    - docker run -e "CI" -e "TRAVIS" -e "TRAVIS_TAG" -e "TRAVIS_BUILD_NUMBER" -e "CXX" -e "CC" -e "REPOSITORY_KEY" --tty=false -it
-      -v $PWD:/src --workdir /src bentou/ubuntu-bionic-dev python3 ./build.py
-
+    - docker run -e "CI" -e "TRAVIS" -e "TRAVIS_TAG" -e "TRAVIS_BUILD_NUMBER" -e "CXX"
+      -e "CC" -e "REPOSITORY_KEY" --tty=false -it -v $PWD:/src --workdir /src bentou/ubuntu-bionic-dev
+      python3 ./build.py
 before_script:
 - docker pull bentou/ubuntu-bionic-dev
 - docker ps -a
 - mkdir bin
+
+env:
+  global:
+    secure: JvePRjJru0qDQdrrYDn3fREh04yf4WvEIdDWhan31nwfOkDb37gMBSMjQlpY8W0t20NKIoYcxJ/QNRJPq6Ho4A9KG65zDcHt4Ki8fE6EJL3FAz1DGf8oNbSyvI0p4VJj86BpNfK2Ji545cEx36iPqD2mQKcYR4sDRVcxMik30IffTcwEVIuiyN5H3wUDbLz9lR8Cs8ru4l425le+vTqJz/Qhxi6Ucj22rWb47sl/MBSOwjDLJ1c+6DzQdQqNRAILpw2S28sh2zGqJKyS2KRKfTRrK6+5/Jb043gpEAnHQltUxs9n4J4V9iQtuv0kA/m6+XdRnjduWjEbgWcnJ3NTSlWbc46s9N2/N+gIy0J66H5lU9qNlxNPy+pPLUa5vXd0Yrh/E3zbrUv9izA0bf01h3TrRdO2dTiZgMOi59YnxM9R8Gxi3wOPWPGgs0WKFSKTw4uoKb3i3UVgHqWkujwXxjAVgp/JndUXVC3vdScKPJZnUulhQSY+bnpTBWCi0TEZPGE3f56jY2MvMZml2GwkGNLMhiRkUEQGbevRUP+IVraBdsYTr3Kwefko/XK2SxnpeR5tnQrh2Vb3uT7ghuZJUWatHgLca7d0QlPRZi1mBZyqLZ8y84/URLycVu/QdBVS17WhYGJX4cqLtOeOwAPRGgu/AjxzWiEps6/822jQwSA=
