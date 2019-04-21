@@ -27,7 +27,7 @@ class GLFWConan(ConanFile):
 
     def build(self):
         # Workaround for conan choosing cmake embedded in Visual Studio
-        if platform.system() == "Windows":
+        if platform.system() == "Windows" and 'AZURE' in os.environ:
             cmake_path = '"C:\\Program Files\\CMake\\bin\\cmake.exe"'
             print (' [DEBUG] Forcing CMake : ' + cmake_path)
             os.environ['CONAN_CMAKE_PROGRAM'] = cmake_path
