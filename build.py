@@ -114,7 +114,7 @@ def execute(password):
             if 'APPVEYOR_REPO_COMMIT' in os.environ:
                 commit = os.environ['APPVEYOR_REPO_COMMIT']
             if 'APPVEYOR_BUILD_NUMBER' in os.environ:
-                commit = os.environ['APPVEYOR_BUILD_NUMBER']
+                build_number = os.environ['APPVEYOR_BUILD_NUMBER']
 
         if 'TRAVIS' in os.environ:
             print(" [info] Welcome, Travis!")
