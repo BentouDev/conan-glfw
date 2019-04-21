@@ -125,6 +125,11 @@ def execute(password):
             if 'TRAVIS_BUILD_NUMBER' in os.environ:
                 build_number = os.environ['TRAVIS_BUILD_NUMBER']
 
+        if 'AZURE' in os.environ:
+            print (" [info] Welcome, Azure Dev Ops!")
+            if 'AZURE_BUILD_NUMBER' in os.environ:
+                build_number = os.environ['AZURE_BUILD_NUMBER']
+
     if not version or not commit:
         print (' [*] Attempt to get version from git...')
         gitData = getGitVersion()
