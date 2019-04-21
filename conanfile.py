@@ -1,5 +1,5 @@
 from conans import ConanFile, CMake, tools
-import os
+import os, platform
 
 glfw_version = os.getenv('GLFW_VERSION', '0.0')
 glfw_commit = os.getenv('GLFW_COMMIT', '')
