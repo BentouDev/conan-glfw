@@ -30,7 +30,7 @@ class GLFWConan(ConanFile):
         # if the packaged project doesn't have variables to set it properly
         tools.replace_in_file("%s/CMakeLists.txt" % ("glfw-source"), "project(GLFW C)", 
 
-"""PROJECT(project(GLFW C))
+"""project(GLFW C)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()""")
 
