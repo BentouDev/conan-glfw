@@ -138,7 +138,7 @@ def execute(password):
             commit = gitData['commit']
         if STABLE_IN_GIT:
             channel = 'stable'
-        ver_parts = version.split('-1-')
+        ver_parts = version.split('-')
         if len(ver_parts) > 1:
             # Fix semvar
             if build_number:
