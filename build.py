@@ -4,15 +4,17 @@ from conans import tools
 import os, sys, platform
 
 DEBUG_MODE = False
+PACKAGE_NAME = 'glfw'
 GIT_DIR = "glfw-source"
 NAME_PREFIX = "GLFW"
 STABLE_IN_GIT = True
+
+username = "bentoudev"
 
 # build_types = ["Release", "Debug", "RelWithDebInfo", "MinSizeRel"],
 
 def createBuilder(channel, commit, password, version):
     branch_pattern = 'release*' # channel is set explicitly!
-    username = "bentoudev"
 
     if not "CONAN_VISUAL_VERSIONS" in os.environ:
         visual_versions = ["15","16"]
@@ -21,19 +23,20 @@ def createBuilder(channel, commit, password, version):
         visual_versions = [ver]
         print(" [info] Selected Visual Studio version " + ver)
 
-    if password:
-        return ConanMultiPackager(username=username,
-                channel=channel,
-                stable_branch_pattern=branch_pattern,
-                visual_versions=visual_versions,
+    # if password:
+    #     return ConanMultiPackager(username=username,
+    #             channel=channel,
+    #             stable_branch_pattern=branch_pattern,
+    #             visual_versions=visual_versions,
 
-                upload="https://api.bintray.com/conan/bentoudev/yage",
-                password=password)
-    else:
-        return ConanMultiPackager(username=username,
-                channel=channel,
-                stable_branch_pattern=branch_pattern,
-                visual_versions=visual_versions)
+    #             upload="https://api.bintray.com/conan/bentoudev/yage",
+    #             password=password)
+    # else:
+
+    return ConanMultiPackager(username=username,
+            channel=channel,
+            stable_branch_pattern=branch_pattern,
+            visual_versions=visual_versions)
 
 def build(channel, commit, password, version):
     os.environ[NAME_PREFIX + '_COMMIT'] = commit
@@ -98,6 +101,15 @@ def getGitVersion():
         print (' [*] Caught error: ' + str(error))
         return None
 
+def upload(password):
+    if not password:
+        print (' [*] No repository key, skipping upload...')
+        return
+
+    runCommand(['conan', 'remote', 'add', 'yage', 'https://api.bintray.com/conan/bentoudev/yage'])
+    runCommand(['conan', 'user', '-p', password, '-r', 'yage', username])
+    runCommand(['conan', 'upload', '"' + PACKAGE_NAME + '*"', '--all', '-r', 'yage', '-c', '--retry', '3', '--retry-wait', '10'])
+
 def execute(password):
     channel = 'dev'
     version = None
@@ -156,6 +168,7 @@ def execute(password):
         print (' [*] Executing conan build...')
 
         build(channel, commit, password, version)
+        upload(password)
     else:
         msg = "Unable to determine version"
         sys.stderr.write(str.format(' [error] {}!', msg))
