@@ -69,22 +69,34 @@ def build(channel, commit, password, version):
 
     builder.run()
 
-def runCommand(args):
+def print_stdout(out):
+    print(" [*] stdout: " + out[0])
+    for x in range(len(out)):
+        print(str(x) + ': ' + out[x])
+
+def cmdRun(args, check=False):
+    import subprocess
+    cmd = subprocess.run(args, encoding='utf-8')
+    if check:
+        cmd.check_returncode()
+
+def runCommand(args, shell=False):
     import subprocess
     if len(args) == 0:
         return None
     try:
         if DEBUG_MODE:
             print(' [*] Running cmd... ' + args[0])
-        raw_out = subprocess.check_output(args, shell=False, cwd=GIT_DIR)
+        raw_out = subprocess.check_output(args, shell=shell, cwd=GIT_DIR)
 
         stdout = raw_out.decode()
 
+        #cmd = run(args, encoding='utf-8', stdout=PIPE)
+        #cmd.check_returncode()
+
         out = stdout.split('\n')
         if DEBUG_MODE:
-            print(" [*] stdout: " + out[0])
-            for x in range(len(out)):
-                print(str(x) + ': ' + out[x])
+            print_stdout(stdout)
 
         return str(out[0])
     except Exception as error:
@@ -106,9 +118,9 @@ def upload(password):
         print (' [*] No repository key, skipping upload...')
         return
 
-    runCommand(['conan', 'remote', 'add', 'yage', 'https://api.bintray.com/conan/bentoudev/yage'])
-    runCommand(['conan', 'user', '-p', password, '-r', 'yage', username])
-    runCommand(['conan', 'upload', '"' + PACKAGE_NAME + '*"', '--all', '-r', 'yage', '-c', '--retry', '3', '--retry-wait', '10'])
+    cmdRun(['conan', 'remote', 'add', 'yage', 'https://api.bintray.com/conan/bentoudev/yage'], False)
+    cmdRun(['conan', 'user', '-p', password, '-r', 'yage', username], False)
+    cmdRun(['conan', 'upload', PACKAGE_NAME + '*', '--all', '-r', 'yage', '-c', '--retry', '3', '--retry-wait', '10'])
 
 def execute(password):
     channel = 'dev'
