@@ -77,6 +77,7 @@ def print_stdout(out):
 def cmdRun(args, check=False):
     import subprocess
     cmd = subprocess.run(args, encoding='utf-8')
+    subprocess.call()
     if check:
         cmd.check_returncode()
 
@@ -87,7 +88,7 @@ def runCommand(args, shell=False):
     try:
         if DEBUG_MODE:
             print(' [*] Running cmd... ' + args[0])
-        raw_out = subprocess.check_output(args, shell=shell, cwd=GIT_DIR)
+        raw_out = subprocess.check_output(args, shell=shell, cwd=GIT_DIR, stderr=subprocess.STDOUT)
 
         stdout = raw_out.decode()
 
@@ -118,9 +119,9 @@ def upload(password):
         print (' [*] No repository key, skipping upload...')
         return
 
-    cmdRun(['conan', 'remote', 'add', 'yage', 'https://api.bintray.com/conan/bentoudev/yage'], False)
-    cmdRun(['conan', 'user', '-p', password, '-r', 'yage', username], False)
-    cmdRun(['conan', 'upload', PACKAGE_NAME + '*', '--all', '-r', 'yage', '-c', '--retry', '3', '--retry-wait', '10'])
+    runCommand(['conan', 'remote', 'add', 'yage', 'https://api.bintray.com/conan/bentoudev/yage'], True)
+    runCommand(['conan', 'user', '-p', password, '-r', 'yage', username], True)
+    runCommand(['conan', 'upload', PACKAGE_NAME + '*', '--all', '-r', 'yage', '-c', '--retry', '3', '--retry-wait', '10'], True)
 
 def execute(password):
     channel = 'dev'
