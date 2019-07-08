@@ -23,6 +23,11 @@ def createBuilder(channel, commit, password, version):
         visual_versions = [ver]
         print(" [info] Selected Visual Studio version " + ver)
 
+    if platform.system() == "Windows":
+        build_types = ["Release", "Debug", "RelWithDebInfo", "MinSizeRel"]
+    else:
+        build_types = ["Release", "Debug"]
+
     # if password:
     #     return ConanMultiPackager(username=username,
     #             channel=channel,
@@ -36,7 +41,8 @@ def createBuilder(channel, commit, password, version):
     return ConanMultiPackager(username=username,
             channel=channel,
             stable_branch_pattern=branch_pattern,
-            visual_versions=visual_versions)
+            visual_versions=visual_versions,
+            build_types=build_types)
 
 def build(channel, commit, password, version):
     os.environ[NAME_PREFIX + '_COMMIT'] = commit
