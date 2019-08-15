@@ -34,7 +34,7 @@ def createBuilder(channel, commit, password, version):
                  stable_branch_pattern=branch_pattern,
                  visual_versions=visual_versions,
                  build_types=build_types,
-                 upload_retry=3,
+                 upload_retry=10,
 
                  upload="https://api.bintray.com/conan/bentoudev/yage",
                  password=password)
