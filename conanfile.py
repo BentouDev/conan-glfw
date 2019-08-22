@@ -18,13 +18,7 @@ class GLFWConan(ConanFile):
 
     options = {}
     default_options = ""
-
-    def package_id(self):
-        self.info.include_build_settings()
-        self.info.settings.compiler
-        self.info.settings.arch
-        self.info.settings.build_type
-
+    
     def source(self):
         if platform.system() != "Windows":
             return
