@@ -26,9 +26,9 @@ class GLFWConan(ConanFile):
         # This small hack might be useful to guarantee proper /MT /MD linkage in MSVC
         # if the packaged project doesn't have variables to set it properly
         print (' [*] Injecting conanbuildinfo.cmake...')
-        tools.replace_in_file("%s/CMakeLists.txt" % ("glfw-source"), "project(GLFW C)", 
+        tools.replace_in_file("%s/CMakeLists.txt" % ("glfw-source"), "project(GLFW VERSION 3.4.0 LANGUAGES C)", 
 
-"""project(GLFW C)
+"""project(GLFW VERSION 3.4.0 LANGUAGES C)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()""")
 
