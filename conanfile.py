@@ -17,13 +17,7 @@ class GLFWConan(ConanFile):
     exports_sources = ["glfw-source/*"]
 
     options = {}
-    default_options = ""
-
-    def package_id(self):
-        self.info.include_build_settings()
-        self.info.settings.compiler
-        self.info.settings.arch
-        self.info.settings.build_type
+    default_options = {}
 
     def source(self):
         if platform.system() != "Windows":
